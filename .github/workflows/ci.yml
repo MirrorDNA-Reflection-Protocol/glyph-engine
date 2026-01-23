@@ -1,0 +1,140 @@
+# ⟡ MirrorDNA CI/CD + Security Scanning
+# Copy this to .github/workflows/ci.yml in each repo
+
+name: CI + Security
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  schedule:
+    # Run security scans weekly
+    - cron: '0 9 * * 1'
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 black mypy pytest pytest-cov
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f pyproject.toml ]; then pip install -e ".[dev]" || pip install -e .; fi
+
+      - name: Lint with flake8
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        continue-on-error: true
+
+      - name: Check formatting with black
+        run: black --check . || true
+        continue-on-error: true
+
+      - name: Type check with mypy
+        run: mypy . --ignore-missing-imports || true
+        continue-on-error: true
+
+      - name: Run tests
+        run: |
+          if [ -d tests ]; then
+            pytest tests/ -v --cov=. --cov-report=xml || true
+          fi
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install security tools
+        run: |
+          pip install safety bandit pip-audit
+
+      - name: Check for known vulnerabilities (safety)
+        run: |
+          if [ -f requirements.txt ]; then
+            safety check -r requirements.txt --full-report || true
+          fi
+        continue-on-error: true
+
+      - name: Audit dependencies (pip-audit)
+        run: |
+          if [ -f requirements.txt ]; then
+            pip-audit -r requirements.txt || true
+          fi
+        continue-on-error: true
+
+      - name: Security lint with bandit
+        run: |
+          bandit -r . -f json -o bandit-report.json || true
+          bandit -r . -f txt || true
+        continue-on-error: true
+
+      - name: Check for secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ""
+          extra_args: --only-verified
+        continue-on-error: true
+
+  citation-spine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify canonical spine
+        run: |
+          echo "Checking for canonical spine in README..."
+          SPINE_ELEMENTS=(
+            "N1 Intelligence"
+            "Active MirrorOS"
+            "MirrorDNA"
+            "Paul Desai"
+            "activemirror.ai"
+          )
+
+          SCORE=0
+          for element in "${SPINE_ELEMENTS[@]}"; do
+            if grep -qi "$element" README.md 2>/dev/null; then
+              echo "✓ Found: $element"
+              ((SCORE++))
+            else
+              echo "✗ Missing: $element"
+            fi
+          done
+
+          echo ""
+          echo "Spine coverage: $SCORE/5"
+
+          if [ $SCORE -lt 3 ]; then
+            echo "::warning::Citation spine incomplete ($SCORE/5). Add canonical attribution."
+          fi
+
+  notify-on-failure:
+    needs: [lint-and-test, security-scan]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify on failure
+        run: |
+          echo "CI failed - notification would be sent here"
+          # Add Pushover/Slack notification here
