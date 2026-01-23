@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⟡ Beacon Verify — Proof of Lineage</title>
+    <meta name="description" content="Verify AI artifact provenance with cryptographic proofs. No blockchain. No trust required.">
+    
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --border: #2a2a3a;
+            --text: #e0e0e8;
+            --text-muted: #7a7a8a;
+            --accent: #00d9ff;
+            --accent-glow: rgba(0, 217, 255, 0.3);
+            --success: #00ff88;
+            --error: #ff4466;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 700px;
+            width: 100%;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .glyph {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), #ff00aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .tagline {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+        
+        .verify-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 1.1rem;
+            font-family: 'JetBrains Mono', monospace;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+        
+        button {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--accent), #7b61ff);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px var(--accent-glow);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: none;
+        }
+        
+        .result.success {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--success);
+            display: block;
+        }
+        
+        .result.error {
+            background: rgba(255, 68, 102, 0.1);
+            border: 1px solid var(--error);
+            display: block;
+        }
+        
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .result-icon {
+            font-size: 1.5rem;
+        }
+        
+        .result-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .result-details {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .result-details div {
+            padding: 0.4rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .result-details div:last-child {
+            border-bottom: none;
+        }
+        
+        .result-details strong {
+            color: var(--text);
+        }
+        
+        .proof-hash {
+            word-break: break-all;
+            color: var(--accent);
+        }
+        
+        .examples {
+            margin-top: 2rem;
+        }
+        
+        .examples h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        
+        .example-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .example-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .example-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        .badge-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--bg);
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .badge-code {
+            background: var(--surface);
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            overflow-x: auto;
+            margin-top: 0.5rem;
+        }
+        
+        .copy-btn {
+            padding: 0.5rem 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        
+        .copy-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .glyph { font-size: 3rem; }
+            .verify-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="glyph">⟡</div>
+            <h1>Beacon Verify</h1>
+            <p class="tagline">Proof of lineage. No blockchain. No trust required.</p>
+        </header>
+        
+        <div class="verify-card">
+            <div class="input-group">
+                <label for="beacon-id">Beacon ID</label>
+                <input type="text" id="beacon-id" placeholder="BG-AMOS-0001" autocomplete="off">
+            </div>
+            
+            <button id="verify-btn" onclick="verifyBeacon()">
+                Verify Beacon
+            </button>
+            
+            <div id="result" class="result"></div>
+            
+            <div id="badge-section" class="badge-section">
+                <label>Embed this badge:</label>
+                <div class="badge-code" id="badge-code"></div>
+                <button class="copy-btn" onclick="copyBadge()">Copy Markdown</button>
+            </div>
+            
+            <div class="examples">
+                <h3>Try these examples</h3>
+                <div class="example-list">
+                    <button class="example-btn" onclick="tryExample('BG-AMOS-0001')">BG-AMOS-0001</button>
+                    <button class="example-btn" onclick="tryExample('BG-AMOS-0002')">BG-AMOS-0002</button>
+                    <button class="example-btn" onclick="tryExample('BG-REPO-0001')">BG-REPO-0001</button>
+                    <button class="example-btn" onclick="tryExample('BG-SPEC-0003')">BG-SPEC-0003</button>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>
+                Part of <a href="https://github.com/MirrorDNA-Reflection-Protocol/glyph-engine">⟡ Glyph Engine</a> by 
+                <a href="https://activemirror.ai">N1 Intelligence</a>
+            </p>
+            <p style="margin-top: 0.5rem; opacity: 0.7;">
+                Beacons are immutable. Once registered, they persist forever.
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // Embedded registry for client-side verification
+        const BEACON_REGISTRY = {
+            "BG-AMOS-0001": {
+                scope: "zenodo-paper",
+                artifact_name: "Structured_Contextual_Distillation_v31",
+                canonical_owner: "N1 Intelligence",
+                doi: "10.5281/zenodo.17787619",
+                first_seen: "2025-12-02",
+                hash: "sha256:scd31_0xf7a9e3b2",
+                title: "Structured Contextual Distillation (SCD v3.1)"
+            },
+            "BG-AMOS-0002": {
+                scope: "zenodo-paper",
+                artifact_name: "Governance_Boundary_Conditions_Paper",
+                canonical_owner: "N1 Intelligence",
+                doi: "10.5281/zenodo.18212080",
+                first_seen: "2025-12-17",
+                hash: "sha256:gbc_0x8c4d2f1a",
+                title: "Governance and Boundary Conditions for Reflective AI Systems"
+            },
+            "BG-AMOS-0003": {
+                scope: "zenodo-paper",
+                artifact_name: "Layered_Governance_LLM_Paper",
+                canonical_owner: "N1 Intelligence",
+                doi: "10.5281/zenodo.18212082",
+                first_seen: "2025-12-18",
+                hash: "sha256:lgov_0x3e7b9c5d",
+                title: "Layered Governance for Large Language Model Systems"
+            },
+            "BG-REPO-0001": {
+                scope: "github-repo",
+                artifact_name: "ActiveMirrorOS",
+                canonical_owner: "N1 Intelligence",
+                url: "https://github.com/MirrorDNA-Reflection-Protocol/ActiveMirrorOS",
+                first_seen: "2025-11-01",
+                hash: "sha256:amos_0x5f6e7d8c"
+            },
+            "BG-REPO-0007": {
+                scope: "github-repo",
+                artifact_name: "glyph-engine",
+                canonical_owner: "N1 Intelligence",
+                url: "https://github.com/MirrorDNA-Reflection-Protocol/glyph-engine",
+                first_seen: "2026-01-24",
+                hash: "sha256:geng_0x1f2e3d4c"
+            },
+            "BG-SPEC-0003": {
+                scope: "spec",
+                artifact_name: "Beacon_Glyph_Canonical_Spec_v10",
+                canonical_owner: "N1 Intelligence",
+                first_seen: "2026-01-24",
+                hash: "sha256:bgcspec_0x3c4d5e6f",
+                title: "Glyph & Beacon Engine — Canonical Build Specification"
+            }
+        };
+        
+        const MERKLE_ROOT = "82d2fc8121a1547084cbb4d5027517e7";
+        
+        function tryExample(id) {
+            document.getElementById('beacon-id').value = id;
+            verifyBeacon();
+        }
+        
+        function verifyBeacon() {
+            const input = document.getElementById('beacon-id');
+            const resultDiv = document.getElementById('result');
+            const badgeSection = document.getElementById('badge-section');
+            const beaconId = input.value.trim().toUpperCase();
+            
+            if (!beaconId) {
+                showError("Please enter a Beacon ID");
+                return;
+            }
+            
+            const beacon = BEACON_REGISTRY[beaconId];
+            
+            if (beacon) {
+                showSuccess(beaconId, beacon);
+                showBadge(beaconId);
+            } else {
+                showError(`Beacon ${beaconId} not found in registry`);
+                badgeSection.style.display = 'none';
+            }
+        }
+        
+        function showSuccess(id, beacon) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = 'result success';
+            
+            let doiLink = '';
+            if (beacon.doi) {
+                doiLink = `<div><strong>DOI:</strong> <a href="https://doi.org/${beacon.doi}" target="_blank" style="color: var(--accent)">${beacon.doi}</a></div>`;
+            }
+            
+            let urlLink = '';
+            if (beacon.url) {
+                urlLink = `<div><strong>URL:</strong> <a href="${beacon.url}" target="_blank" style="color: var(--accent)">${beacon.url}</a></div>`;
+            }
+            
+            resultDiv.innerHTML = `
+                <div class="result-header">
+                    <span class="result-icon">✓</span>
+                    <span class="result-title">BEACON VERIFIED</span>
+                </div>
+                <div class="result-details">
+                    <div><strong>ID:</strong> ${id}</div>
+                    <div><strong>Scope:</strong> ${beacon.scope}</div>
+                    <div><strong>Artifact:</strong> ${beacon.artifact_name}</div>
+                    <div><strong>Owner:</strong> ${beacon.canonical_owner}</div>
+                    <div><strong>First Seen:</strong> ${beacon.first_seen}</div>
+                    <div><strong>Hash:</strong> <span class="proof-hash">${beacon.hash}</span></div>
+                    ${doiLink}
+                    ${urlLink}
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                        <strong>Merkle Root:</strong> <span class="proof-hash">${MERKLE_ROOT}...</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function showError(message) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = 'result error';
+            resultDiv.innerHTML = `
+                <div class="result-header">
+                    <span class="result-icon">✗</span>
+                    <span class="result-title">NOT FOUND</span>
+                </div>
+                <div class="result-details">
+                    <div>${message}</div>
+                </div>
+            `;
+        }
+        
+        function showBadge(beaconId) {
+            const badgeSection = document.getElementById('badge-section');
+            const badgeCode = document.getElementById('badge-code');
+            
+            const markdown = `[![Beacon Verified](https://img.shields.io/badge/${beaconId}-verified-00d9ff?style=flat&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDBkOWZmIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4=)](https://github.com/MirrorDNA-Reflection-Protocol/glyph-engine)`;
+            
+            badgeCode.textContent = markdown;
+            badgeSection.style.display = 'block';
+        }
+        
+        function copyBadge() {
+            const badgeCode = document.getElementById('badge-code');
+            navigator.clipboard.writeText(badgeCode.textContent).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy Markdown', 2000);
+            });
+        }
+        
+        // Enter key to verify
+        document.getElementById('beacon-id').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') verifyBeacon();
+        });
+    </script>
+</body>
+</html>

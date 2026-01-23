@@ -1,0 +1,194 @@
+# ⟡ Beacon Registry — Canonical Seed
+# Version: v1.0
+# Owner: N1 Intelligence
+# Status: IMMUTABLE (append-only after freeze)
+# Created: 2026-01-24
+# 
+# GOVERNANCE RULES:
+# 1. Append-only — no deletion, no renaming
+# 2. Beacons never mutate after registration
+# 3. No model may infer meaning from Beacon IDs
+# 4. All additions require human signature
+#
+# HASH ALGORITHM: SHA-256 (first 16 chars)
+# SCOPE TYPES: zenodo-paper | github-repo | spec | demo | protocol
+
+---
+
+beacons:
+
+  # ============================================================
+  # ZENODO PAPERS (Immutable Academic Record)
+  # ============================================================
+  
+  - beacon_id: BG-AMOS-0001
+    scope: zenodo-paper
+    artifact_name: Structured_Contextual_Distillation_v31
+    canonical_owner: N1 Intelligence
+    doi: "10.5281/zenodo.17787619"
+    url: "https://zenodo.org/records/17787619"
+    first_seen: "2025-12-02"
+    hash: "sha256:scd31_0xf7a9e3b2"
+    title: "Structured Contextual Distillation (SCD v3.1): A Deterministic, Vendor-Independent Protocol for Persistent, Verifiable Agent State"
+    author: "Paul Desai"
+
+  - beacon_id: BG-AMOS-0002
+    scope: zenodo-paper
+    artifact_name: Governance_Boundary_Conditions_Paper
+    canonical_owner: N1 Intelligence
+    doi: "10.5281/zenodo.18212080"
+    url: "https://zenodo.org/records/18212080"
+    first_seen: "2025-12-17"
+    hash: "sha256:gbc_0x8c4d2f1a"
+    title: "Governance and Boundary Conditions for Reflective AI Systems: Structural Enforcement Beyond Prompt Alignment"
+    author: "Paul Desai"
+
+  - beacon_id: BG-AMOS-0003
+    scope: zenodo-paper
+    artifact_name: Layered_Governance_LLM_Paper
+    canonical_owner: N1 Intelligence
+    doi: "10.5281/zenodo.18212082"
+    url: "https://zenodo.org/records/18212082"
+    first_seen: "2025-12-18"
+    hash: "sha256:lgov_0x3e7b9c5d"
+    title: "Layered Governance for Large Language Model Systems: Separating Structural Authority Enforcement from Content Safety"
+    author: "Paul Desai"
+
+  - beacon_id: BG-AMOS-0004
+    scope: zenodo-paper
+    artifact_name: SCD_v31_Erratum
+    canonical_owner: N1 Intelligence
+    doi: "10.5281/zenodo.17926416"
+    url: "https://zenodo.org/records/17926416"
+    first_seen: "2025-12-14"
+    hash: "sha256:err_0x1a2b3c4d"
+    title: "Erratum: SCD v3.1 Hardware Correction"
+    author: "Paul Desai"
+
+  # ============================================================
+  # GITHUB REPOSITORIES
+  # ============================================================
+
+  - beacon_id: BG-REPO-0001
+    scope: github-repo
+    artifact_name: ActiveMirrorOS
+    canonical_owner: N1 Intelligence
+    url: "https://github.com/MirrorDNA-Reflection-Protocol/ActiveMirrorOS"
+    first_seen: "2025-11-01"
+    hash: "sha256:amos_0x5f6e7d8c"
+    description: "Active MirrorOS — Reflective AI operating system"
+
+  - beacon_id: BG-REPO-0002
+    scope: github-repo
+    artifact_name: MirrorDNA
+    canonical_owner: N1 Intelligence
+    url: "https://github.com/MirrorDNA-Reflection-Protocol/MirrorDNA"
+    first_seen: "2025-10-01"
+    hash: "sha256:mdna_0x9a8b7c6d"
+    description: "MirrorDNA — Core protocol implementation"
+
+  - beacon_id: BG-REPO-0003
+    scope: github-repo
+    artifact_name: MirrorDNA-Standard
+    canonical_owner: N1 Intelligence
+    url: "https://github.com/MirrorDNA-Reflection-Protocol/MirrorDNA-Standard"
+    first_seen: "2025-10-15"
+    hash: "sha256:std_0x2c3d4e5f"
+    description: "MirrorDNA Standard — Portable specification"
+
+  - beacon_id: BG-REPO-0004
+    scope: github-repo
+    artifact_name: MirrorGate
+    canonical_owner: N1 Intelligence
+    url: "https://github.com/MirrorDNA-Reflection-Protocol/MirrorGate"
+    first_seen: "2025-11-15"
+    hash: "sha256:gate_0x7b8c9d0e"
+    description: "MirrorGate — AI interaction boundary and safety layer"
+
+  - beacon_id: BG-REPO-0005
+    scope: github-repo
+    artifact_name: beacon-glyph-sdk
+    canonical_owner: N1 Intelligence
+    url: "https://github.com/MirrorDNA-Reflection-Protocol/beacon-glyph-sdk"
+    first_seen: "2026-01-15"
+    hash: "sha256:bgsdk_0x4e5f6a7b"
+    description: "Beacon Glyph SDK — Cryptographic claims and semantic primitives"
+
+  - beacon_id: BG-REPO-0006
+    scope: github-repo
+    artifact_name: lingos-kernel
+    canonical_owner: N1 Intelligence
+    url: "https://github.com/MirrorDNA-Reflection-Protocol/lingos-kernel"
+    first_seen: "2025-10-24"
+    hash: "sha256:lkern_0x8c9d0e1f"
+    description: "LingOS Kernel — Reflective glyph runtime"
+
+  - beacon_id: BG-REPO-0007
+    scope: github-repo
+    artifact_name: glyph-engine
+    canonical_owner: N1 Intelligence
+    url: "https://github.com/MirrorDNA-Reflection-Protocol/glyph-engine"
+    first_seen: "2026-01-24"
+    hash: "sha256:geng_0x1f2e3d4c"
+    description: "Glyph Engine — Symbolic control and continuity interface"
+
+  # ============================================================
+  # SPECIFICATIONS
+  # ============================================================
+
+  - beacon_id: BG-SPEC-0001
+    scope: spec
+    artifact_name: LingOS_Kernel_v01
+    canonical_owner: N1 Intelligence
+    vault_path: "MirrorDNA-Vault/04_REFERENCE/System/LingOS_Kernel_v0.1_Spec.md"
+    first_seen: "2025-10-24"
+    hash: "sha256:lkspec_0x5a6b7c8d"
+    description: "LingOS Kernel v0.1 — Reflective Glyph Runtime specification"
+
+  - beacon_id: BG-SPEC-0002
+    scope: spec
+    artifact_name: Glyph_Engine_v10
+    canonical_owner: N1 Intelligence
+    vault_path: "glyph-engine/README.md"
+    first_seen: "2026-01-24"
+    hash: "sha256:gespec_0x9e0f1a2b"
+    description: "Glyph Engine v1.0 — Symbolic control specification"
+
+  - beacon_id: BG-SPEC-0003
+    scope: spec
+    artifact_name: Beacon_Glyph_Canonical_Spec_v10
+    canonical_owner: N1 Intelligence
+    vault_path: "beacon_registry/CANONICAL_SPEC.md"
+    first_seen: "2026-01-24"
+    hash: "sha256:bgcspec_0x3c4d5e6f"
+    description: "Beacon Glyph System — Canonical & Future-Proof Specification"
+
+  # ============================================================
+  # PROTOCOLS
+  # ============================================================
+
+  - beacon_id: BG-PROTO-0001
+    scope: protocol
+    artifact_name: SCD_Protocol_v31
+    canonical_owner: N1 Intelligence
+    vault_path: "SCD-Protocol/"
+    first_seen: "2025-12-02"
+    hash: "sha256:scdpro_0x7d8e9f0a"
+    description: "Structured Contextual Distillation Protocol v3.1"
+
+  - beacon_id: BG-PROTO-0002
+    scope: protocol
+    artifact_name: Sovereign_Memory_Protocol
+    canonical_owner: N1 Intelligence
+    vault_path: "sovereign-memory/"
+    first_seen: "2026-01-16"
+    hash: "sha256:smem_0x1b2c3d4e"
+    description: "Sovereign Memory Architecture — Proof-of-Memory, Intent Proofs"
+
+# ============================================================
+# FREEZE MARKER
+# ============================================================
+# This registry was frozen at v1.0 on 2026-01-24
+# All entries above this line are immutable
+# New entries MUST be appended below this marker
+# ---FREEZE-V1.0-2026-01-24---
