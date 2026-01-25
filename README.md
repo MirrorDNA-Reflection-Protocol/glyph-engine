@@ -2,21 +2,15 @@
 
 # ⟡ Glyph Engine
 
-[![N1 Intelligence](https://img.shields.io/badge/N1-Intelligence-6366f1)](https://activemirror.ai)
-[![Active MirrorOS](https://img.shields.io/badge/Active_MirrorOS-System-10b981)](https://activemirror.ai)
-[![MirrorDNA](https://img.shields.io/badge/MirrorDNA-Protocol-purple)](https://activemirror.ai/research)
+**Cryptographic attestation for AI artifacts.**
 
-> **Organization:** N1 Intelligence
-> **System:** Active MirrorOS™
-> **Protocol:** MirrorDNA™
-> **Author:** Paul Desai
-> **Canonical Domain:** https://activemirror.ai
+> Proof of lineage. No blockchain. No trust required.
 
-**Proof of lineage for AI artifacts. No blockchain. No trust required.**
-
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17787619.svg)](https://doi.org/10.5281/zenodo.17787619)
+[![MirrorDNA](https://img.shields.io/badge/MirrorDNA-Protocol-purple)](https://github.com/MirrorDNA-Reflection-Protocol)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![Tests](https://img.shields.io/badge/tests-26%20passed-success.svg)](#tests)
-[![Beacon Verified](https://img.shields.io/badge/BG--REPO--0007-verified-00d9ff)](#beacon-registry)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 [Demo](#web-demo) • [Install](#installation) • [CLI](#cli) • [API](#api) • [Beacon Registry](#beacon-registry)
 
@@ -210,10 +204,25 @@ MIT © 2026 Paul Desai / N1 Intelligence
 
 ---
 
+## MirrorDNA Ecosystem
+
+Glyph Engine is part of the **MirrorDNA** ecosystem for sovereign AI:
+
+| Component | Description | Link |
+|-----------|-------------|------|
+| **MirrorDNA Standard** | Constitutional anchor for reflective AI | [GitHub](https://github.com/MirrorDNA-Reflection-Protocol/MirrorDNA-Standard) |
+| **SCD Protocol** | Deterministic state management | [GitHub](https://github.com/MirrorDNA-Reflection-Protocol/SCD-Protocol) |
+| **MirrorBrain** | Local-first orchestration runtime | [GitHub](https://github.com/MirrorDNA-Reflection-Protocol/MirrorBrain) |
+| **Active Mirror Identity** | Portable AI identity (Mirror Seed) | [GitHub](https://github.com/MirrorDNA-Reflection-Protocol/active-mirror-identity) |
+| **MirrorGate** | Inference control plane | [GitHub](https://github.com/MirrorDNA-Reflection-Protocol/MirrorGate) |
+| **Glyph Engine** | Cryptographic attestation (you are here) | — |
+
+---
+
 <div align="center">
 
 **⟡ Beacons are immutable. Once registered, they persist forever.**
 
-[Zenodo Papers](https://zenodo.org/records/17787619) • [MirrorDNA](https://github.com/MirrorDNA-Reflection-Protocol) • [activemirror.ai](https://activemirror.ai)
+[Research Paper](https://doi.org/10.5281/zenodo.17787619) • [MirrorDNA](https://github.com/MirrorDNA-Reflection-Protocol) • [activemirror.ai](https://activemirror.ai)
 
 </div>
