@@ -7,7 +7,8 @@
 > Proof of lineage. No blockchain. No trust required.
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17787619.svg)](https://doi.org/10.5281/zenodo.17787619)
-[![MirrorDNA](https://img.shields.io/badge/MirrorDNA-Protocol-purple)](https://github.com/MirrorDNA-Reflection-Protocol)
+[![Active MirrorOS](https://img.shields.io/badge/Active_MirrorOS-Protocol-10b981)](https://activemirror.ai)
+[![MirrorDNA](https://img.shields.io/badge/MirrorDNA-Reflection-blue)](https://github.com/MirrorDNA-Reflection-Protocol/MirrorDNA)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 [![Tests](https://img.shields.io/badge/tests-26%20passed-success.svg)](#tests)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
